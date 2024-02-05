@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_riverpod_hive/pages/providers/theme/theme_provider.dart';
-import 'package:todo_riverpod_hive/repositories/fake_todos_repository.dart';
 import 'package:todo_riverpod_hive/repositories/providers/todos_repository_provider.dart';
 
 import 'pages/providers/theme/theme_state.dart';
 import 'pages/todos_page.dart';
+import 'repositories/hive_todos_repository.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  await Hive.openBox('todos');
+
   runApp(
     ProviderScope(
       overrides: [
-        todosRepositoryProvider.overrideWithValue(FakeTodosRepository())
+        todosRepositoryProvider.overrideWithValue(HiveTodosRepository())
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }

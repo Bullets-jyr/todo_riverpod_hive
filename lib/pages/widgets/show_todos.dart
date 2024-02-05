@@ -71,6 +71,16 @@ class _ShowTodosState extends ConsumerState<ShowTodos> {
 
     return todoListState.when(
       data: (List<Todo> allTodos) {
+        if (allTodos.isEmpty) {
+          prevTodosWidget = const Center(
+            child: Text(
+              'Enter some todo',
+              style: TextStyle(fontSize: 20),
+            ),
+          );
+          return prevTodosWidget;
+        }
+
         // final filteredTodos = ref.watch(filteredTodosProvider);
         final filteredTodos = filterTodos(allTodos);
 
